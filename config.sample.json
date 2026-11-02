@@ -1,0 +1,58 @@
+{
+  "_comment": "工作日提醒配置文件。改完可在托盘菜单点“重新加载配置”，或退出后重新打开。",
+  "_fields": {
+    "enabled": "全局开关：false 时所有提醒都不触发",
+    "poll_interval_seconds": "轮询间隔（秒），建议 10-60",
+    "catch_up_minutes": "补偿窗口（分钟）：休眠/重启后若错过时间点且误差在窗口内，仍会补发提醒",
+    "notification_mode": "toast=系统通知， popup=置顶弹窗",
+    "popup_timeout_seconds": "置顶弹窗自动关闭秒数，0 表示不自动关闭",
+    "notification_timeout_seconds": "系统通知停留秒数",
+    "sound": "default=系统提示音， none=静音，也可以填 wav 文件绝对路径",
+    "autostart": "是否写入开机自启（托盘菜单里也可以切换）",
+    "auto_update_data": "每年 12 月 30 日之后若缺少下一年数据，是否自动联网更新；false 则需手动点托盘菜单「更新节假日数据」",
+    "log_level": "DEBUG / INFO / WARNING / ERROR",
+    "unknown_year_policy": "当年节假日数据缺失时的兜底规则：weekday=周一至周五上班，holiday=全部按休息日",
+    "reminders": "提醒列表，可任意增删；time 为 24 小时制 HH:MM；mode/sound 填 null 表示跟随全局"
+  },
+  "_data": "节假日数据见 data/holidays.json，或用 pip 升级 chinesecalendar 包",
+  "enabled": true,
+  "poll_interval_seconds": 10,
+  "catch_up_minutes": 30,
+  "notification_mode": "toast",
+  "popup_timeout_seconds": 30,
+  "notification_timeout_seconds": 10,
+  "sound": "default",
+  "autostart": false,
+  "auto_update_data": true,
+  "log_level": "INFO",
+  "unknown_year_policy": "weekday",
+  "reminders": [
+    {
+      "id": "morning",
+      "enabled": true,
+      "time": "09:30",
+      "title": "上班提醒",
+      "message": "先看一眼今天的待办清单，规划最重要的一件事。",
+      "mode": null,
+      "sound": null
+    },
+    {
+      "id": "standup",
+      "enabled": true,
+      "time": "10:00",
+      "title": "站会提醒",
+      "message": "10:00 站会，准备好昨天完成项与今天计划。",
+      "mode": null,
+      "sound": null
+    },
+    {
+      "id": "offwork",
+      "enabled": false,
+      "time": "18:30",
+      "title": "下班提醒",
+      "message": "收尾：提交代码、写工作日志、确认明天第一件事。",
+      "mode": null,
+      "sound": null
+    }
+  ]
+}

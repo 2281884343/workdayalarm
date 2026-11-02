@@ -1,0 +1,26 @@
+# 运行期生成的文件（不要提交）
+config.json
+state.json
+logs/
+holidays.local.json
+*.broken
+
+# 打包产物（仓库里只保留 dist/WorkdayAlarm.exe 供直接下载）
+build/
+dist/*
+!dist/WorkdayAlarm.exe
+*.spec
+assets/app.ico
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# 编辑器/系统
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
