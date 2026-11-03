@@ -11,7 +11,7 @@
 - 单文件 exe，绿色免安装，无广告、无遥测、不上传任何数据
 - 纯 Python 标准库实现（托盘 ctypes + 弹窗 tkinter），常驻内存约十几 MB
 
-**直接下载**：[`dist/WorkdayAlarm.exe`](dist/WorkdayAlarm.exe)（12.9 MB，Windows 10/11，双击即用，无需安装 Python）
+**直接下载**：[Releases](https://github.com/2281884343/workdayalarm/releases/latest)（含 SHA256 校验）或 [`dist/WorkdayAlarm.exe`](dist/WorkdayAlarm.exe)（12.9 MB，Windows 10/11，双击即用，无需安装 Python）
 
 > English: WorkdayAlarm is a tiny Windows tray reminder that only fires on **real working days in China** — it follows the State Council's official holiday and makeup-workday (调休) calendar, so it stays silent on weekends/long holidays and still rings on makeup Saturdays. Single-file exe, offline, no telemetry, MIT licensed.
 
