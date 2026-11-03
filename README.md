@@ -1,5 +1,8 @@
 # 工作日提醒（WorkdayAlarm）
 
+[![CI](https://github.com/2281884343/workdayalarm/actions/workflows/ci.yml/badge.svg)](https://github.com/2281884343/workdayalarm/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 一款常驻 Windows 系统托盘的定时提醒小工具：**按国务院发布的法定节假日与调休安排判定“真实工作日”**，只在国内真正上班的日子提醒你，普通周末、法定节假日自动跳过，**周末补班日照常提醒**。
 
 传统闹钟只会“周一到周五响”，遇到五一调休、国庆补班、春节长假就全乱；工作日提醒内置节假日数据，一年只设置一次，之后每年的调休都自动适配。
