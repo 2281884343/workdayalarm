@@ -86,6 +86,49 @@ def _release_single_instance() -> None:
         _mutex_handle = None
 
 
+def _harden_output_encoding() -> None:
+    """让标准输出/错误能安全打印中文。
+
+    英文版 Windows 的控制台代码页是 cp1252，直接 print("工作日提醒") 会抛
+    UnicodeEncodeError；这里把流切到 UTF-8（不可编码字符用 ? 代替），
+    并在真实控制台下把代码页切到 65001，保证中文正常显示。
+    """
+    console_switched = False
+    for stream in (sys.stdout, sys.stderr):
+        if stream is None:
+            continue
+        encoding = (getattr(stream, "encoding", "") or "").lower().replace("-", "")
+        if encoding in ("utf8", "utf8mb4"):
+            continue
+        try:
+            is_tty = bool(stream.isatty())
+        except Exception:
+            is_tty = False
+        if is_tty and not console_switched:
+            try:
+                ctypes.windll.kernel32.SetConsoleOutputCP(65001)
+                ctypes.windll.kernel32.SetConsoleCP(65001)
+                console_switched = True
+            except Exception:
+                pass
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+            continue
+        except (AttributeError, ValueError, OSError):
+            pass
+        try:
+            buffer = getattr(stream, "buffer", None)
+            if buffer is None:
+                continue
+            wrapper = io.TextIOWrapper(buffer, encoding="utf-8", errors="replace", line_buffering=True)
+            if stream is sys.stdout:
+                sys.stdout = wrapper
+            else:
+                sys.stderr = wrapper
+        except Exception:
+            pass
+
+
 def _ensure_output() -> bool:
     """打包成 --noconsole 时 sys.stdout 为 None，为命令行子命令找回输出通道。
 
@@ -173,6 +216,7 @@ def _print_check(calendar, target: dt.date | None, days: int, config_file: Path)
 
 
 def main(argv: list[str] | None = None) -> int:
+    _harden_output_encoding()
     parser = argparse.ArgumentParser(
         prog="workday_alarm", description=f"{APP_TITLE} v{__version__}", add_help=True
     )
