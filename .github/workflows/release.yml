@@ -1,0 +1,42 @@
+name: Release
+
+# 打 tag（如 v1.1.1）时，把仓库里已打包好的 exe 发布成 Release，
+# 顺便附上 SHA256 校验值。exe 由本地 tools/build.py 生成并随仓库提交。
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: 发布
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 校验 exe 存在
+        run: |
+          if (-not (Test-Path "dist/WorkdayAlarm.exe")) {
+            Write-Error "dist/WorkdayAlarm.exe 不存在"
+            exit 1
+          }
+          Get-Item "dist/WorkdayAlarm.exe" | Format-List Name, Length
+        shell: pwsh
+
+      - name: 生成 SHA256
+        run: |
+          $hash = (Get-FileHash "dist/WorkdayAlarm.exe" -Algorithm SHA256).Hash.ToLower()
+          "$hash  WorkdayAlarm.exe" | Out-File -Encoding ascii -NoNewline "dist/SHA256SUMS.txt"
+          Get-Content "dist/SHA256SUMS.txt"
+        shell: pwsh
+
+      - name: 发布到 Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/WorkdayAlarm.exe
+            dist/SHA256SUMS.txt
+          generate_release_notes: true
